@@ -1,0 +1,17 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+GET http://localhost:8080/orders/NO1001
+
+###
+POST http://localhost:8080/orders/NO1001/address
+Content-Type: application/json
+X-User-Id: u001
+X-User-Name: XiaoMing
+
+{
+  "address": "银盏盏小区",
+  "phone": "18643374395"
+}

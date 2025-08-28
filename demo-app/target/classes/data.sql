@@ -1,0 +1,1 @@
+INSERT INTO orders(order_no, address) VALUES ('NO1001', '金灿灿小区');

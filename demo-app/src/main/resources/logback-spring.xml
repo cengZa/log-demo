@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="LOG_PATH" value="logs"/>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %t %-5level %X{userId} %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_PATH}/business.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_PATH}/business.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <maxHistory>15</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %t %-5level %X{userId} %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="businessLog" level="INFO" additivity="false">
+    <appender-ref ref="BUSINESS"/>
+  </logger>
+  <root level="INFO">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>
