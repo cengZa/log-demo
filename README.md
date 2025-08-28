@@ -39,16 +39,16 @@
   bizNo   = "#{#req.orderNo}",
   category= "DELIVERY",
   condition = "!#req.address.equals(#oldAddress)",
-  detail = "联系人手机号：{mask{#req.phone}}" // <<< 新增：对 #req.phone 脱敏
+  detail = "联系人手机号：{mask{#req.phone}}"
 )
 public void changeAddress(ChangeAddressReq req) {
-    // 1) 读取旧值并放入上下文（对日志可见，不污染方法签名）
+    // 读取旧值并放入上下文（对日志可见，不污染方法签名）
     var old = orderMapper.selectOne(new LambdaQueryWrapper<OrderDO>()
                   .eq(OrderDO::getOrderNo, req.orderNo()));
     String oldAddr = old == null ? "(空)" : (old.getAddress() == null ? "(空)" : old.getAddress());
     LogRecordContext.put("oldAddress", oldAddr);
 
-    // 2) 执行业务更新（事务内）
+    // 执行业务更新（事务内）
     int updated = orderMapper.update(null, new LambdaUpdateWrapper<OrderDO>()
         .set(OrderDO::getAddress, req.address())
         .eq(OrderDO::getOrderNo, req.orderNo()));
@@ -67,7 +67,7 @@ public class MyBatisPlusLogRecordService implements LogRecordService {
         OpLogDO d = new OpLogDO();
         d.setTenant(nvl(e.getTenant(), "default"));
         // ...填充各字段
-        d.setDetail(toJsonOrNull(e.getDetail())); // 保障 JSON 合法
+        d.setDetail(toJsonOrNull(e.getDetail()));
         mapper.insert(d);
     }
 }
