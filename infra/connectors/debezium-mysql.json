@@ -1,0 +1,30 @@
+{
+  "name": "mysql-oplog-cdc",
+  "config": {
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+
+    "database.hostname": "mysql",
+    "database.port": "3306",
+    "database.user": "debezium",
+    "database.password": "debezium",
+    "database.ssl.mode": "DISABLED",
+
+    "topic.prefix": "db1",
+    "table.include.list": "demo.op_log",
+
+    "include.schema.changes": "false",
+    "snapshot.mode": "initial",
+
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "schema.history.internal.kafka.topic": "schema-history.oplog",
+
+    "transforms": "unwrap,renametopic",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "transforms.unwrap.add.fields": "op,ts_ms,table",
+
+    "transforms.renametopic.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.renametopic.regex": "db1\\.demo\\.op_log",
+    "transforms.renametopic.replacement": "op-log"
+  }
+}
